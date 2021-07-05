@@ -1,0 +1,61 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 6f97d35192bd9fafc139f81a2a839467ebf56630f5af06c90752443a3aadf799
+
+name:           afp-summer-school
+version:        0.1.0.0
+homepage:       https://github.com/githubuser/afp-summer-school#readme
+bug-reports:    https://github.com/githubuser/afp-summer-school/issues
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/afp-summer-school
+
+library
+  exposed-modules:
+      Assignment_01_Monads_et_al
+      Lib
+  other-modules:
+      Paths_afp_summer_school
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable afp-summer-school-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_afp_summer_school
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      afp-summer-school
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite afp-summer-school-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_afp_summer_school
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , afp-summer-school
+    , base >=4.7 && <5
+    , hspec
+    , quickcheck-classes
+  default-language: Haskell2010
