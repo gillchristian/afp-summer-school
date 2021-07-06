@@ -2,7 +2,9 @@
 
 module Assignment_01_Monads_et_al where
 
-data Tree a = Leaf a | Node (Tree a) (Tree a)
+data Tree a
+  = Leaf a
+  | Node (Tree a) (Tree a)
   deriving (Show, Eq)
 
 instance Functor Tree where
@@ -23,3 +25,27 @@ instance Monad Tree where
   (>>=) :: Tree a -> (a -> Tree b) -> Tree b
   Leaf a >>= f = f a
   Node l r >>= f = Node (l >>= f) (r >>= f)
+
+data RoseTree a
+  = RoseNode a [RoseTree a]
+  | RoseLeaf
+  deriving (Show, Eq)
+
+instance Functor RoseTree where
+  fmap :: (a -> b) -> RoseTree a -> RoseTree b
+  fmap _ RoseLeaf = RoseLeaf
+  fmap f (RoseNode a as) = RoseNode (f a) (fmap (fmap f) as)
+
+instance Applicative RoseTree where
+  pure :: a -> RoseTree a
+  pure a = RoseNode a []
+
+  (<*>) :: RoseTree (a -> b) -> RoseTree a -> RoseTree b
+  RoseLeaf <*> _ = RoseLeaf
+  _ <*> RoseLeaf = RoseLeaf
+  RoseNode f fs <*> RoseNode a as = RoseNode (f a) $ (<*>) <$> fs <*> as
+
+instance Monad RoseTree where
+  (>>=) :: RoseTree a -> (a -> RoseTree b) -> RoseTree b
+  RoseLeaf >>= _ = RoseLeaf
+  RoseNode a as >>= f = undefined
